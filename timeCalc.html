@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+
+<head>        
+    <meta charset="utf-8">
+    <meta name="description" content="Time Calculator">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/timecalc.css">
+    <title>Hours from now</title>
+</head>
+
+<body>
+
+    <fieldset>
+        <div class="container">
+            <div class="buttons text-center">
+                <button class="btn btn-lg btn-secondary" id="current" type="button">Current Time</button>
+                <button class="btn btn-lg btn-secondary" id="custom" type="button">Custom Time</button>
+            </div>
+            
+            <label for="hours" class="label-left">STARTING TIME:</label>           
+            <div class="input-group input-group-lg col-lg-4 col-lg-offset-4"> 
+                <input type="number" id="hours" name="hours-custom" class="form-control" min="0" max="23" step="1" placeholder="Hours" title="Hours">
+                <span class="input-group-addon">:</span>
+                <input type="number" id="minutes" name="minutes-custom" class="form-control" min="0" max="59" step="1" placeholder="Minutes" title="Minutes">
+                <span class="input-group-addon">:</span>
+                <input type="number" id="seconds" name="seconds-custom" class="form-control" min="0" max="59" step="1" placeholder="Seconds" title="Seconds">                    
+            </div>
+            
+            <label for="hours" class="label-left">TIME TO ADD/SUBTRACT:</label>
+            <div class="input-group  input-group-lg col-lg-4 col-lg-offset-4">                
+                <input type="number" id="hours-calc" name="hours" class="form-control" min="0" step="1" placeholder="Hours" title="Hours">
+                <span class="input-group-addon">:</span>                    
+                <input type="number" id="minutes-calc" name="minutes" class="form-control" min="0" step="1" placeholder="Minutes" title="Minutes">
+                <span class="input-group-addon">:</span>
+                     
+                <input type="number" id="seconds-calc" name="seconds" class="form-control" min="0" step="1" placeholder="Seconds" title="Seconds">
+            </div>
+
+            <div  class="text-center">
+                <label class="checkbox-inline" for="future"><input type="radio" name="pastfuture" id="future" checked>In the future</label>
+
+                <label class="checkbox-inline" for="past"><input type="radio" name="pastfuture" id="past">In the past</label>
+                
+            </div>
+            <div class=" col-lg-4">
+                <button class="btn btn-block btn-primary" id="calculate" type="button">Calculate</button>
+            </div>
+
+            </div>
+            <div id="result" class="container text-center" title="The time hours from now">
+                <span>00:00:00 AM</span>
+            </div>
+        
+    </fieldset>
+    
+    <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+    
+    <script>
+        $('#current').click(function() {
+            var date = new Date();
+            var currentTime = date.toLocaleString().substring(10, 18);
+            currentTime = currentTime.split(':');
+
+            $('#hours').val(currentTime[0]);
+            $('#minutes').val(currentTime[1]);
+            $('#seconds').val(currentTime[2]);
+
+        });
+
+        $('#calculate').click(function() {
+            let hours = parseInt(document.getElementById("hours").value) || 0;        
+            let minutes = parseInt(document.getElementById("minutes").value) || 0;
+            let seconds = parseInt(document.getElementById("seconds").value) || 0;
+
+            let hoursCalc = parseInt(document.getElementById("hours-calc").value) || 0;
+            let minutesCalc = parseInt(document.getElementById("minutes-calc").value) || 0;
+            let secondsCalc = parseInt(document.getElementById("seconds-calc").value) || 0;
+            
+            let finalHours = hours + hoursCalc;
+            let finalMinutes = minutes + minutesCalc;
+            let finalSeconds = seconds + secondsCalc;
+            let totalSeconds = (finalHours * 3600) + (finalMinutes * 60) + finalSeconds;
+            
+            let date = new Date(null);
+            date.setSeconds(totalSeconds);
+            let timeString = date.toISOString().substr(11, 8);
+            timeString = timeString.split(':');
+
+            if (timeString[0] >= 12) {
+                var suffix = 'PM';                
+            } else {
+                var suffix = 'AM';
+            } 
+            
+            finalHours = timeString[0] % 12;
+            if (finalHours < 10) {
+                finalHours = '0' + finalHours;
+            }
+            
+            timeString[0] = finalHours;
+            timeString = timeString.join(':') + ' ' + suffix;
+            document.getElementById('result').innerHTML = timeString;
+        });
+
+    </script>
+
+</body>
+
+</html>
