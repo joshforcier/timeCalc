@@ -60,15 +60,15 @@
   crossorigin="anonymous"></script>
     
     <script>
+        
         $('#current').click(function() {
-            var date = new Date();
-            var currentTime = date.toLocaleString().substring(10, 18);
+            let date = new Date();
+            let currentTime = date.toLocaleString().substring(10, 18);            
             currentTime = currentTime.split(':');
 
-            $('#hours').val(currentTime[0]);
-            $('#minutes').val(currentTime[1]);
-            $('#seconds').val(currentTime[2]);
-
+            $('#hours').val((currentTime[0]).trim());            
+            $('#minutes').val((currentTime[1]).trim());            
+            $('#seconds').val((currentTime[2]).trim());
         });
 
         $('#calculate').click(function() {
@@ -87,7 +87,7 @@
             
             let date = new Date(null);
             date.setSeconds(totalSeconds);
-            let timeString = date.toISOString().substr(11, 8);
+            let timeString = date.toISOString().substring(11, 19);
             timeString = timeString.split(':');
 
             if (timeString[0] >= 12) {
