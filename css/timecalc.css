@@ -3,9 +3,13 @@
 }
 
 .container {
-    margin: 30px;
+    margin: 20px;
 }
 
-.buttons, .input-group{
+.buttons, .input-group {
     padding-bottom: 30px;
+}
+
+.checkbox-inline {
+    padding-bottom: 15px;    
 }
