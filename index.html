@@ -124,7 +124,9 @@
             let minutes = parseInt(document.getElementById('minutes').value) || 0;
             let seconds = parseInt(document.getElementById('seconds').value) || 0;
 
-            if (timeType === 12 && hours > 12) {
+            var hoursInput = document.getElementById('hours');
+
+            if (timeType === 12 && hours > 12 || (!hours)) {
                 alert('Please enter a valid time.');
                 return;
             }
@@ -132,14 +134,16 @@
             // math done in 24 hour time, add 12 to inputed hours if pm
             if (timeType === 12) {
                 if ($('#ampm').is(':checked')) {
+                    // pm
                     if (hours < 12) {
                         hours = hours + 12;
                     }
                 // if 12am, set hour to 0 for calculating in 24-hour time
                 } else if ($('#ampm').not(':checked')) {
+                    // am
                     if (hours == 12) {
-                        hours = 0;
-                    }
+                        hours = 0;               
+                    } 
                 }
             }
 
