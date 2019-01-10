@@ -85,12 +85,13 @@
   
             if (timeType === 12) {
                 if (currentTime[0] > 12) {
+                    $('#ampm').prop('checked', true);
                     let currentHour = parseInt(currentTime[0]) - 12;
                     $('#hours').val(currentHour);
                 } else {
                     $('#hours').val((currentTime[0]).trim());
-                }
-                
+                    $('#ampm').prop('checked', false);
+                }                
             } else {
                 $('#hours').val((currentTime[0]).trim());
             }
