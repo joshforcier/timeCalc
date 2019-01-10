@@ -7,7 +7,7 @@
 }
 
 .buttons, .input-group{
-    padding-bottom: 20px;
+    padding-bottom: 20px !important;
 }
 
 .label-left {    
