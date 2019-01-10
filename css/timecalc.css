@@ -3,23 +3,9 @@
 }
 
 .container {
-    margin: 20px;
+    margin: 30px;
 }
 
 .buttons, .input-group{
     padding-bottom: 30px;
-}
-
-@media all and (max-width: 640px) {
-    #result {
-        font-size: 3.5em;
-    }
-
-    .container {
-        margin: 20px;
-    }
-
-    .buttons, .input-group{
-        padding-bottom: 30px;
-    }
 }
