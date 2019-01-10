@@ -6,7 +6,7 @@
     <meta name="description" content="Time Calculator">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/timecalc.css">
+    <link rel="stylesheet" href="/timeCalc/css/timecalc.css">
     <title>Hours from now</title>
 </head>
 
@@ -16,26 +16,26 @@
         <div class="container">
             <div class="buttons text-center">
                 <button class="btn btn-lg btn-secondary" id="current" type="button">Current Time</button>
-                <button class="btn btn-lg btn-secondary" id="custom" type="button">Custom Time</button>
+                <button class="btn btn-lg btn-secondary" id="reset" type="button">Reset</button>
             </div>
             
             <label for="hours" class="label-left">STARTING TIME:</label>           
-            <div class="input-group input-group-lg col-lg-4 col-lg-offset-4"> 
-                <input type="number" id="hours" name="hours-custom" class="form-control" min="0" max="23" step="1" placeholder="Hours" title="Hours">
+            <div class="input-group input-group-lg "> 
+                <input type="number" id="hours" name="hours-custom" class="form-control" min="0" max="23" step="1" placeholder="Hr" title="Hours">
                 <span class="input-group-addon">:</span>
-                <input type="number" id="minutes" name="minutes-custom" class="form-control" min="0" max="59" step="1" placeholder="Minutes" title="Minutes">
+                <input type="number" id="minutes" name="minutes-custom" class="form-control" min="0" max="59" step="1" placeholder="Min" title="Minutes">
                 <span class="input-group-addon">:</span>
-                <input type="number" id="seconds" name="seconds-custom" class="form-control" min="0" max="59" step="1" placeholder="Seconds" title="Seconds">                    
+                <input type="number" id="seconds" name="seconds-custom" class="form-control" min="0" max="59" step="1" placeholder="Sec" title="Seconds">                    
             </div>
             
             <label for="hours" class="label-left">TIME TO ADD/SUBTRACT:</label>
-            <div class="input-group  input-group-lg col-lg-4 col-lg-offset-4">                
-                <input type="number" id="hours-calc" name="hours" class="form-control" min="0" step="1" placeholder="Hours" title="Hours">
+            <div class="input-group  input-group-lg">                
+                <input type="number" id="hours-calc" name="hours" class="form-control" min="0" step="1" placeholder="Hours" title="Hr">
                 <span class="input-group-addon">:</span>                    
-                <input type="number" id="minutes-calc" name="minutes" class="form-control" min="0" step="1" placeholder="Minutes" title="Minutes">
+                <input type="number" id="minutes-calc" name="minutes" class="form-control" min="0" step="1" placeholder="Min" title="Minutes">
                 <span class="input-group-addon">:</span>
                      
-                <input type="number" id="seconds-calc" name="seconds" class="form-control" min="0" step="1" placeholder="Seconds" title="Seconds">
+                <input type="number" id="seconds-calc" name="seconds" class="form-control" min="0" step="1" placeholder="Sec" title="Seconds">
             </div>
 
             <div  class="text-center">
@@ -64,16 +64,21 @@
         
         $('#current').click(function() {
             let date = new Date();
-            let currentTime = date.toLocaleString().substring(10, 18);            
+            let currentTime = date.toLocaleString().substring(10, 18);
             currentTime = currentTime.split(':');
 
-            $('#hours').val((currentTime[0]).trim());            
-            $('#minutes').val((currentTime[1]).trim());            
+            $('#hours').val((currentTime[0]).trim());
+            $('#minutes').val((currentTime[1]).trim());
             $('#seconds').val((currentTime[2]).trim());
         });
 
+        $('#reset').click(function() {
+            $("input").val('');
+            document.getElementById('result').innerHTML = '00:00:00 AM';
+        });
+
         $('#calculate').click(function() {
-            let hours = parseInt(document.getElementById("hours").value) || 0;        
+            let hours = parseInt(document.getElementById("hours").value) || 0;
             let minutes = parseInt(document.getElementById("minutes").value) || 0;
             let seconds = parseInt(document.getElementById("seconds").value) || 0;
 
@@ -92,7 +97,7 @@
             timeString = timeString.split(':');
 
             if (timeString[0] >= 12) {
-                var suffix = 'PM';                
+                var suffix = 'PM';
             } else {
                 var suffix = 'AM';
             } 
