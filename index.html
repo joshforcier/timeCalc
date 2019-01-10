@@ -20,7 +20,7 @@
                 <button class='btn btn-secondary' id='reset' type='button'>Reset</button>                
             </div>
             
-            <label for='hours' class='label-left'>STARTING TIME:</label>           
+            <label for='hours' class='label-left'>STARTING TIME:</label>
             <div class='input-group input-group-lg '> 
                 <input type='number' id='hours' name='hours-custom' class='form-control' min='0' max='23' step='1' placeholder='Hr' title='Hours'>
                 <span class='input-group-addon'>:</span>
@@ -36,20 +36,14 @@
             </div>
 
             <label for='hours' class='label-left'>TIME TO ADD/SUBTRACT:</label>
-            <div class='input-group  input-group-lg'>                
+            <div class='input-group  input-group-lg'>
                 <input type='number' id='hours-calc' name='hours' class='form-control' min='0' step='1' placeholder='Hr' title='Hours'>
-                <span class='input-group-addon'>:</span>                    
+                <span class='input-group-addon'>:</span>
                 <input type='number' id='minutes-calc' name='minutes' class='form-control' min='0' step='1' placeholder='Min' title='Minutes'>
-                <span class='input-group-addon'>:</span>                     
+                <span class='input-group-addon'>:</span>
                 <input type='number' id='seconds-calc' name='seconds' class='form-control' min='0' step='1' placeholder='Sec' title='Seconds'>
             </div>
-
-            <div  class='text-center'>
-                <label class='checkbox-inline' for='future'><input type='radio' name='pastfuture' id='future' checked>In the future</label>
-
-                <label class='checkbox-inline' for='past'><input type='radio' name='pastfuture' id='past'>In the past</label>
-                
-            </div>
+            
             <div class='col-lg-4 col-md-offset-4'>
                 <button class='btn btn-lg btn-block btn-primary' id='calculate' type='button'>Calculate</button>
             </div>
@@ -68,28 +62,39 @@
     <script>
 
         var timeType = 12;
-        $('#time-type').click(function() {            
+        $('#time-type').click(function() {
             if ($(this).text() === 'Switch to 24-Hour') {
                 timeType = 24;
                 $(this).text('Switch to 12-Hour');
                 $("#ampm").attr("disabled", true);
                 $(".ampm-switch").css("cursor", "not-allowed");
-                document.getElementById('result').innerHTML = '00:00:00';               
+                document.getElementById('result').innerHTML = '00:00:00';
             } else {
                 timeType = 12;
                 $(this).text('Switch to 24-Hour');
                 $("#ampm").removeAttr("disabled");
-                $(".ampm-switch").css("cursor", "pointer");              
+                $(".ampm-switch").css("cursor", "pointer");
                 document.getElementById('result').innerHTML = '00:00:00 AM';
-            }            
+            }
         }); 
         
         $('#current').click(function() {
             let date = new Date();
-            let currentTime = date.toLocaleString().substring(10, 19);
+            let currentTime = date.toLocaleString('en-GB').substring(11, 20);
             currentTime = currentTime.split(':');
+  
+            if (timeType === 12) {
+                if (currentTime[0] > 12) {
+                    let currentHour = parseInt(currentTime[0]) - 12;
+                    $('#hours').val(currentHour);
+                } else {
+                    $('#hours').val((currentTime[0]).trim());
+                }
+                
+            } else {
+                $('#hours').val((currentTime[0]).trim());
+            }
 
-            $('#hours').val((currentTime[0]).trim());
             $('#minutes').val((currentTime[1]).trim());
             $('#seconds').val((currentTime[2]).trim());
         });
