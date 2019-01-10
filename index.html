@@ -7,7 +7,7 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' integrity='sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u' crossorigin='anonymous'>
     <link rel='stylesheet' href='/timeFromNow/css/timecalc.css'>
-    <title>Hours from now</title>
+    <title>Time from now</title>
 </head>
 
 <body>
@@ -28,9 +28,9 @@
                 <span class='input-group-addon'>:</span>
                 <input type='number' id='seconds' name='seconds-custom' class='form-control' min='0' max='59' step='1' placeholder='Sec' title='Seconds'>
                 <span class='input-group-addon'>
-                    <label class="ampm-switch">
-                        <input type="checkbox" id="ampm" name="" value="" checked=""> 
-                        <div class="toggle-button"></div>
+                    <label class='ampm-switch'>
+                        <input type='checkbox' id='ampm' name='' value='' checked=''> 
+                        <div class='toggle-button'></div>
                     </label>
                 </span>
             </div>
@@ -43,7 +43,13 @@
                 <span class='input-group-addon'>:</span>
                 <input type='number' id='seconds-calc' name='seconds' class='form-control' min='0' step='1' placeholder='Sec' title='Seconds'>
             </div>
-            
+
+            <div  class='text-center'>
+                <label class='checkbox-inline' for='future'><input type='radio' name='pastfuture' id='future' checked>In the future</label>
+
+                <label class='checkbox-inline' for='past'><input type='radio' name='pastfuture' id='past'>In the past</label>
+                
+            </div>
             <div class='col-lg-4 col-md-offset-4'>
                 <button class='btn btn-lg btn-block btn-primary' id='calculate' type='button'>Calculate</button>
             </div>
@@ -55,9 +61,10 @@
     </fieldset>
     
     <script
-  src='https://code.jquery.com/jquery-3.3.1.min.js'
-  integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8='
-  crossorigin='anonymous'></script>
+        src='https://code.jquery.com/jquery-3.3.1.min.js'
+        integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8='
+        crossorigin='anonymous'>      
+    </script>
     
     <script>
 
@@ -66,14 +73,14 @@
             if ($(this).text() === 'Switch to 24-Hour') {
                 timeType = 24;
                 $(this).text('Switch to 12-Hour');
-                $("#ampm").attr("disabled", true);
-                $(".ampm-switch").css("cursor", "not-allowed");
+                $('#ampm').attr('disabled', true);
+                $('.ampm-switch').css('cursor', 'not-allowed');
                 document.getElementById('result').innerHTML = '00:00:00';
             } else {
                 timeType = 12;
                 $(this).text('Switch to 24-Hour');
-                $("#ampm").removeAttr("disabled");
-                $(".ampm-switch").css("cursor", "pointer");
+                $('#ampm').removeAttr('disabled');
+                $('.ampm-switch').css('cursor', 'pointer');
                 document.getElementById('result').innerHTML = '00:00:00 AM';
             }
         }); 
@@ -85,13 +92,14 @@
   
             if (timeType === 12) {
                 if (currentTime[0] > 12) {
+                    // if 12-hour and after noon, subtract 12 hours 
                     $('#ampm').prop('checked', true);
                     let currentHour = parseInt(currentTime[0]) - 12;
                     $('#hours').val(currentHour);
                 } else {
                     $('#hours').val((currentTime[0]).trim());
                     $('#ampm').prop('checked', false);
-                }                
+                }                                
             } else {
                 $('#hours').val((currentTime[0]).trim());
             }
@@ -121,9 +129,18 @@
                 return;
             }
             
+            // math done in 24 hour time, add 12 to inputed hours if pm
             if (timeType === 12) {
                 if ($('#ampm').is(':checked')) {
-                    hours = hours + 12;
+                    if (hours < 12) {
+                        hours = hours + 12;
+                        console.log(hours);
+                    }
+                // if 12am, set hour to 0 for calculating in 24-hour time
+                } else if ($('#ampm').not(':checked')) {
+                    if (hours == 12) {
+                        hours = 0;
+                    }
                 }
             }
 
@@ -134,28 +151,38 @@
             let finalHours = hours + hoursCalc;
             let finalMinutes = minutes + minutesCalc;
             let finalSeconds = seconds + secondsCalc;
+
+            // convert times to seconds, add, then convert total seconds to time
             let totalSeconds = (finalHours * 3600) + (finalMinutes * 60) + finalSeconds;
-            
             let date = new Date(null);
-            date.setSeconds(totalSeconds);
+            date.setSeconds(totalSeconds);            
             let timeString = date.toISOString().substring(11, 19);
             timeString = timeString.split(':');
 
+            // set am/pm for timeString
             if (timeType === 12) {
-                if (timeString[0] >= 12) {
+                if (timeString[0] > 12) {
+                    var suffix = 'PM';
+                } else if (timeString[0] == 0) {
                     var suffix = 'PM';
                 } else {
                     var suffix = 'AM';
                 }
             }
-            
+            console.log(timeString);
+            // hours cant be greater than 12 or 24
             if (timeType === 12) {
                 if (timeString[0] == 12) {
+                    // % 12 gives us 0 if it is noon
+                    finalHours = 12;
+                } else if (timeString[0] == 0) {                    
                     finalHours = 12;
                 } else {
+                    // hours cant be greater than 12
                     finalHours = timeString[0] % 12;
                 }
             } else {
+                // hours cant be greater than 24
                 finalHours = timeString[0] % 24;
             }
 
