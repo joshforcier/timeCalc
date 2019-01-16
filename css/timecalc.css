@@ -11,7 +11,7 @@
 }
 
 .checkbox-inline {
-    padding-bottom: 15px;    
+    padding-bottom: 15px;
 }
 
 .input-group-addon {
@@ -38,14 +38,6 @@ label.ampm-switch:after {
     text-align: center;
     line-height: 20px;
     color: #ffffff;
-}
-
-label.ampm-switch:before {
-    content: "AM";
-}
-
-label.ampm-switch:after {
-    content: "PM";
 }
 
 label.ampm-switch input {
@@ -101,10 +93,34 @@ label.ampm-switch .toggle-button:before {
     color: #ffffff;
 }
 
+label.ampm-switch:before {
+    content: "AM";
+}
+
+label.ampm-switch:after {
+    content: "PM";
+}
+
 label.ampm-switch .toggle-button:before {
     content: "AM";
 }
 
 label.ampm-switch input:checked + .toggle-button:before {
     content: "PM";
+}
+
+label.add-sub:before {
+    content: "-";
+}
+
+label.add-sub:after {
+    content: "+";
+}
+
+label.add-sub .toggle-button:before {
+    content: "-";
+}
+
+label.add-sub input:checked + .toggle-button:before {
+    content: "+";
 }
